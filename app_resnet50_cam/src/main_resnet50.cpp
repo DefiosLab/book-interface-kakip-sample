@@ -22,8 +22,8 @@
 #include "camera.h"
 /*Image control*/
 #include "image_resnet50.h"
-/*Wayland control*/
-#include "wayland.h"
+/*OpenCV*/
+#include <opencv2/opencv.hpp>
 #include "spdlog/spdlog.h"
 #include "spdlog/sinks/basic_file_sink.h"
 
@@ -73,7 +73,8 @@ std::map<int32_t, std::string> label_file_map;
 static int8_t display_state=0;
 #endif
 
-static Wayland wayland;
+static std::vector<uint8_t> opencv_disp_mem(
+    IMAGE_OUTPUT_WIDTH * IMAGE_OUTPUT_HEIGHT * IMAGE_CHANNEL_BGRA * WL_BUF_NUM);
 static Camera* capture = NULL;
 
 static double pre_time = 0;
@@ -634,11 +635,6 @@ void *R_Capture_Thread(void *threadid)
                 if (!img_obj_ready.load())
                 {
                     img.camera_to_image(img_buffer, capture->get_size());
-                    ret = capture->video_buffer_flush_dmabuf(capture->wayland_buf->idx, capture->wayland_buf->size);
-                    if (0 != ret)
-                    {
-                        goto err;
-                    }
                     img_obj_ready.store(1); /* Flag for Display Thread. */
                 }
             }
@@ -774,13 +770,9 @@ void *R_Display_Thread(void *threadid)
     timespec end_time;
     static struct timespec disp_prev_time = { .tv_sec = 0, .tv_nsec = 0, };
 
-    /* Initialize waylad */
-    ret = wayland.init(capture->wayland_buf->idx, IMAGE_OUTPUT_WIDTH, IMAGE_OUTPUT_HEIGHT, IMAGE_CHANNEL_BGRA);
-    if(0 != ret)
-    {
-        fprintf(stderr, "[ERROR] Failed to initialize Image for Wayland\n");
-        goto err;
-    }
+    /* Initialize OpenCV Window */
+    cv::namedWindow("Display", cv::WINDOW_NORMAL);
+    cv::resizeWindow("Display", IMAGE_OUTPUT_WIDTH, IMAGE_OUTPUT_HEIGHT);
 
     printf("Display Thread Starting\n");
     while(1)
@@ -808,8 +800,10 @@ void *R_Display_Thread(void *threadid)
                 fprintf(stderr, "[ERROR] Failed to get Display Start Time\n");
                 goto err;
             }
-            /*Update Wayland*/
-            wayland.commit(img.get_img(buf_id), NULL);
+            /*Update Window*/
+            cv::Mat bgra(IMAGE_OUTPUT_HEIGHT, IMAGE_OUTPUT_WIDTH, CV_8UC4, img.get_img(buf_id));
+            cv::imshow("Display", bgra);
+            cv::waitKey(1);
 
 #if END_DET_TYPE // To display the app_pointer_det in front of this application.
             if (display_state == 0) 
@@ -1231,7 +1225,9 @@ int32_t main(int32_t argc, char * argv[])
     }
 
     /*Initialize Image object.*/
-    ret = img.init(CAM_IMAGE_WIDTH, CAM_IMAGE_HEIGHT, CAM_IMAGE_CHANNEL_YUY2, IMAGE_OUTPUT_WIDTH, IMAGE_OUTPUT_HEIGHT, IMAGE_CHANNEL_BGRA, capture->wayland_buf->mem);
+    ret = img.init(CAM_IMAGE_WIDTH, CAM_IMAGE_HEIGHT, CAM_IMAGE_CHANNEL_YUY2,
+        IMAGE_OUTPUT_WIDTH, IMAGE_OUTPUT_HEIGHT, IMAGE_CHANNEL_BGRA,
+        opencv_disp_mem.data());
     if (0 != ret)
     {
         fprintf(stderr, "[ERROR] Failed to initialize Image object.\n");
@@ -1360,8 +1356,8 @@ end_threads:
         sem_destroy(&terminate_req_sem);
     }
 
-    /* Exit waylad */
-    wayland.exit();
+    /* Exit Window */
+    cv::destroyWindow("Display");
     goto end_close_camera;
 
 end_close_camera:
@@ -1393,3 +1389,4 @@ end_main:
     printf("Application End\n");
     return ret_main;
 }
+
