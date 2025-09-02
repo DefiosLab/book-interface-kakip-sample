@@ -20,11 +20,11 @@ def run(input_file,out_file):
                 sub_graph_name = "blank"
             if(sub_graph_name.find("drp")!=-1):
                 num_drp_graph += 1
-                dur_time = float(data[1])
+                dur_time = float(data[1].replace(',', ''))
                 time_drp += dur_time
             elif(sub_graph_name.find("tvmgen")!=-1):
                 num_cpu_graph += 1
-                dur_time = float(data[1])
+                dur_time = float(data[1].replace(',', ''))
                 time_cpu += dur_time
             line = f.readline()
     # Calc time

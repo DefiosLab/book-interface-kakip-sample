@@ -32,7 +32,7 @@ else()
     include_directories(${CMAKE_SYSROOT}/usr/src/debug/gstreamer1.0-plugins-base/1.22.12/gst-libs/gst/gl)
     list(APPEND SOURCE ${CMAKE_SYSROOT}/usr/src/debug/gstreamer1.0-plugins-base/1.22.12/gst-libs/gst/gl/xdg-shell-client-protocol.c)
     add_definitions(-DV2H -DV2N)
-    message("-- For Scarthgap or lator") 
+    message("-- For Scarthgap or later") 
 endif()
 add_executable (${EXE_NAME}
 ${SOURCE}

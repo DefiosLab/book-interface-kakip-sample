@@ -1,30 +1,50 @@
 # Resnet50のサンプルアプリ
 
-## ビルド
-(readmeへのリンク)を参考に`data`ディレクトリに`app_resnet50_cam`ディレクトリをコピーしてください. その後Dockerを起動します.
+## 環境の準備
 
-以下のコマンドを実行してビルドすることができます.
+### Docker環境の準備
+
+[README](../README.md)を参考にDocker imageの準備を行ってください
+
+### 作業フォルダの準備
+
+`data`フォルダを任意の場所に作成し, 本フォルダ(`app_resnet50_cam`)をコピーしてください.
+
+### Dockerの起動
+
+[README](../README.md)を参考に`data`フォルダをマウントした状態でDockerを起動してください.
+
+
+## ビルド
+
+Docker内の`/drp-ai_tvm/data`フォルダに本フォルダが存在することを確認します.
 ```
-$ cd data/app_resnet50_cam/src
+$ cd /drp-ai_tvm/data
+$ ls
+app_resnet50_cam
+```
+
+ビルドフォルダを作成しビルドを実行します.
+```
 $ mkdir build
 $ cd build
 
 $ cmake -DCMAKE_TOOLCHAIN_FILE=$TVM_ROOT/apps/toolchain/runtime.cmake  ..
 $ make
 ```
-以上により, `build`ディレクトリ内に実行ファイルが作成されます.
+以上により, `build`フォルダ内に実行ファイルが作成されます.
 
+```
+$ ls
+app_resnet50_cam  CMakeCache.txt  CMakeFiles  cmake_install.cmake  Makefile
+```
 
-参考 : プロファイラを有効にするには リンク を参照してください
+参考 : プロファイラを有効にするには[README](../README.md)を参照してください
 
 ## 実行ファイルの配置
 
+実行ファイル`app_resnet50_cam/src/build/app_resnet50_cam`を`app_resnet50_cam`フォルダ内にコピーし, Kakipに転送して実行してください. また, モデルは`resnet50_cam`フォルダ内に格納してください.
+
 ```
-cd $TVM_ROOT/../
-rm -r sample_resnet50_cam ; mkdir sample_resnet50_cam
-cp $TVM_ROOT/obj/build_runtime/$PRODUCT/libtvm_runtime.so sample_resnet50_cam/
-cp $TVM_ROOT/apps/exe/synset_words_imagenet.txt sample_resnet50_cam/
-cp $TVM_ROOT/how-to/sample_app_v2h/app_resnet50_cam/src/build/app_resnet50_cam sample_resnet50_cam/
-cp -r $TVM_ROOT/tutorials/resnet50_cam sample_resnet50_cam/
-tar cvfz sample_resnet50.tar.gz sample_resnet50_cam/
+$ scp -r app_resnet50_cam <user>@<kakip-ip>:~/
 ```
