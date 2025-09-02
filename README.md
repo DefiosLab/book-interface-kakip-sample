@@ -17,7 +17,10 @@ $ wget https://raw.githubusercontent.com/renesas-rz/rzv_drp-ai_tvm/main/Dockerfi
 
 Docker imageをビルドします。
 ```
-$ unzip RTK0EF018?F0??00SJ.zip
+$ ls
+DockerfileV2H  r20ut5460ej0110-drp-ai-translator-i8.zip  RTK0EF0180F05200SJ.zip
+$ unzip r20ut5460ej0110-drp-ai-translator-i8.zip
+$ unzip RTK0EF0180F05200SJ.zip
 $ mv `find ./ -name "*toolchain*sh"` .
 $ docker build -t drp-ai_tvm_v2h_image_${USER} -f Dockerfile* --build-arg PRODUCT=V2H .
 ```
