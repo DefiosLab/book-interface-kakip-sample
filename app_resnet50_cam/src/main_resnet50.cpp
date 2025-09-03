@@ -471,7 +471,9 @@ void *R_Inf_Thread(void *threadid)
             goto err;
         }
 
-        runtime.Run();
+        // runtime.Run(DRPAI_FREQ);
+        /* プロファイルを取りたい場合は以下に書きかえ */
+        runtime.ProfileRun("profile_table.txt", "profile.csv");
 
         /*Gets AI Inference End Time*/
         ret = timespec_get(&inf_end_time, TIME_UTC);

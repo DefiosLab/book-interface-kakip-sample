@@ -26,10 +26,11 @@ $ docker build -t drp-ai_tvm_v2h_image_${USER} -f Dockerfile* --build-arg PRODUC
 ```
 
 ## コンテナの起動
-以下のコマンドにより、ホストの`$(pwd)/data`がDockerコンテナの`/drp-ai_tvm/data`にマウントされた状態で起動することができます。
+以下のコマンドにより、ホストの`book-interface-kakip-sample`がDockerコンテナの`/drp-ai_tvm/book-interface-kakip-sample`にマウントされた状態で起動することができます。
 Dockerコンテナとホストとの間でのファイルのやり取りに使用してください。
 ```
-$ docker run -it --name drp-ai_tvm_v2h_container_${USER} -v $(pwd)/data:/drp-ai_tvm/data drp-ai_tvm_v2h_image_${USER}
+$ cd book-interface-kakip-sample
+$ docker run --rm -it --name drp-ai_tvm_v2h_container_${USER} -v $(pwd):/drp-ai_tvm/book-interface-kakip-sample drp-ai_tvm_v2h_image_${USER}
 ```
 
 # プロファイルの取得方法
