@@ -2,6 +2,10 @@
 * Copyright (C) 2023 Renesas Electronics Corporation. All rights reserved.
 ***********************************************************************************************************************/
 /***********************************************************************************************************************
+* Modifications: Copyright (C) 2025 Defios.inc
+* - Changed window rendering from Wayland to OpenCV HighGUI
+***********************************************************************************************************************/
+/***********************************************************************************************************************
 * File Name    : main_resnet50.cpp
 * Version      : 1.00
 * Description  : RZ/V2H DRP-AI Sample Application for PyTorch ResNet with MIPI/USB Camera
