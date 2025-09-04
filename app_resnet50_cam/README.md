@@ -15,24 +15,24 @@
 
 Docker内の`/drp-ai_tvm/book-interface-kakip-sample`フォルダに本フォルダが存在することを確認します。
 ```
-$ cd /drp-ai_tvm/book-interface-kakip-sample
-$ ls
+# cd /drp-ai_tvm/book-interface-kakip-sample
+# ls
 app_resnet50_cam
 ```
 
 `app_resnet50_cam/src`内にビルドフォルダを作成しビルドを実行します。
 ```
-$ cd app_resnet50_cam/src
-$ mkdir build
-$ cd build
+# cd app_resnet50_cam/src
+# mkdir build
+# cd build
 
-$ cmake -DCMAKE_TOOLCHAIN_FILE=$TVM_ROOT/apps/toolchain/runtime.cmake ..
-$ make
+# cmake -DCMAKE_TOOLCHAIN_FILE=$TVM_ROOT/apps/toolchain/runtime.cmake ..
+# make
 ```
 以上により、`build`フォルダ内に実行ファイルが作成されます。
 
 ```
-$ ls
+# ls
 app_resnet50_cam  CMakeCache.txt  CMakeFiles  cmake_install.cmake  Makefile
 ```
 
