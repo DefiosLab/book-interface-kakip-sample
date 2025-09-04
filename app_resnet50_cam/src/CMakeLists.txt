@@ -38,6 +38,11 @@ add_executable (${EXE_NAME}
 ${SOURCE}
 )
 
+set_target_properties(${EXE_NAME} PROPERTIES
+  BUILD_WITH_INSTALL_RPATH TRUE
+  INSTALL_RPATH "\$ORIGIN"
+)
+
 target_compile_options(${EXE_NAME} PRIVATE -O3 -Ofast -mtune=cortex-a55 -Wall)
 target_compile_definitions(${EXE_NAME} PRIVATE IMAGE_MODE)
 target_compile_definitions(${EXE_NAME} PRIVATE V2H)
