@@ -2,7 +2,7 @@
 
 ## 準備
 
-以下のファイルを作業フォルダに用意してください。
+以下のファイルを作業ディレクトリに用意してください。
 
 - [DRP-AI Translator i8](https://www.renesas.com/software-tool/drp-ai-translator-i8) v1.10以降
 - [RZ/V2H AI Software Development Kit](https://www.renesas.com/software-tool/rzv2h-ai-software-development-kit) v5.20以降
@@ -61,7 +61,7 @@ if ( 0 == ret)
 
 ```
 
-この変更を行ったうえでアプリを実行すると、実行ファイルと同じフォルダ内に以下のファイルが生成されます。
+この変更を行ったうえでアプリを実行すると、実行ファイルと同じディレクトリ内に以下のファイルが生成されます。
 - `profile_table.txt`
   - CPU/DRP-AIに割り当てられた各サブグラフの処理時間が含まれています
 - `profile.csv`

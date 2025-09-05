@@ -41,7 +41,7 @@ Pythonの仮想環境を終了します。
 
 ### RZ/V2H向けのコンパイル
 以下のコマンドでRZ/V2H向けにコンパイルコンパイルすることができます。
-`vit_tiny_onnx_npu`というフォルダにコンパイル後のファイルが出力されます。
+`vit_tiny_onnx_npu`というディレクトリにコンパイル後のファイルが出力されます。
 ```
 # cd $TVM_ROOT/tutorials/
 
@@ -49,9 +49,25 @@ Pythonの仮想環境を終了します。
 ```
 
 ### CPU向けのコンパイル
+以下のコマンドでCPUH向けにコンパイルコンパイルすることができます。
+`vit_tiny_onnx_cpu`というディレクトリにコンパイル後のファイルが出力されます。
 ```
-
+# cd $TVM_ROOT/tutorials/
+# python3 compile_cpu_only_onnx_model.py ${TVM_ROOT}/convert/output/vit_tiny_patch16_224_onnx/vit_tiny_patch16_224.onnx -o vit_tiny_onnx_cpu -s 1,3,224,224 -i input
 ```
 
 
 ## アプリの実行
+
+今回使うViT tinyのモデルはResNet50と同じImageNetで学習されたモデルのため`app_resnet50_cam`でそのまま実行することができます. 
+
+まず, RZ/V2H向けにコンパイルしたモデルと, CPU向けにコンパイルしたモデルをKakipに転送します. その後`vit_tiny_onnx_npu`もしくは`vit_tiny_onnx_cpu`を`resnet50_cam`という名前で複製し, 実行ファイルのあるディレクトリに格納し, アプリを実行してください.
+
+```
+$ scp -r vit_tiny_onnx_* <user>@<kakip-ip>:~/app_resnet50_cam/
+```
+
+```
+$ cp -r vit_tiny_onnx_npu resnet50_cam
+$ ./app_resnet50_cam
+```
