@@ -4,23 +4,23 @@
 
 ### Docker環境の準備
 
-[README](../README.md)を参考にDocker imageの準備を行ってください。
+[README](../README.md)を参考にDocker imageの準備を行ってください．
 
 ### Dockerの起動
 
-[README](../README.md)を参考にこのリポジトリをマウントした状態でDockerを起動してください。
+[README](../README.md)を参考にこのリポジトリをマウントした状態でDockerを起動してください．
 
 
 ## ビルド
 
-Docker内の`/drp-ai_tvm/book-interface-kakip-sample`ディレクトリに本ディレクトリが存在することを確認します。
+Docker内の`/drp-ai_tvm/book-interface-kakip-sample`ディレクトリに本ディレクトリが存在することを確認します．
 ```
 # cd /drp-ai_tvm/book-interface-kakip-sample
 # ls
 app_resnet50_cam
 ```
 
-`app_resnet50_cam/src`内にビルドディレクトリを作成しビルドを実行します。
+`app_resnet50_cam/src`内にビルドディレクトリを作成しビルドを実行します．
 ```
 # cd app_resnet50_cam/src
 # mkdir build
@@ -29,7 +29,7 @@ app_resnet50_cam
 # cmake -DCMAKE_TOOLCHAIN_FILE=$TVM_ROOT/apps/toolchain/runtime.cmake ..
 # make
 ```
-以上により、`build`ディレクトリ内に実行ファイルが作成されます。
+以上により，`build`ディレクトリ内に実行ファイルが作成されます．
 
 ```
 # ls
@@ -40,7 +40,7 @@ app_resnet50_cam  CMakeCache.txt  CMakeFiles  cmake_install.cmake  Makefile
 
 ## 実行ファイルの配置
 
-実行ファイル`app_resnet50_cam/src/build/app_resnet50_cam`を`app_resnet50_cam/`ディレクトリ内にコピーし、Kakipに転送して実行してください。また、モデルは`resnet50_cam`ディレクトリ内に格納してください。
+実行ファイル`app_resnet50_cam/src/build/app_resnet50_cam`を`app_resnet50_cam/`ディレクトリ内にコピーし，Kakipに転送して実行してください．また，モデルは`resnet50_cam`ディレクトリ内に格納してください．
 
 ```
 $ scp -r app_resnet50_cam <user>@<kakip-ip>:~/
@@ -48,4 +48,4 @@ $ scp -r app_resnet50_cam <user>@<kakip-ip>:~/
 
 ## ViT tinnyの実行
 
-本アプリを用いてViT tinnyモデルも実行することができます. 詳細は[ViTの動かし方](./ViT.md)を確認してください.
+本アプリを用いてViT tinnyモデルも実行することができます．詳細は[ViTの動かし方](./ViT.md)を確認してください．
