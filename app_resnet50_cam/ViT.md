@@ -44,6 +44,18 @@ Pythonの仮想環境を終了します．
 `vit_tiny_onnx_npu`というディレクトリにコンパイル後のファイルが出力されます．
 ```
 # cd $TVM_ROOT/tutorials/
+# git restore compile_onnx_model_quant.py
+
+# sed -i -e '/# Input shape helper/,/return \[batch_dim\] + \[int(d.get("dimValue")) for d in dim_info\[1::\]\]/d' compile_onnx_model_quant.py
+# sed -i -e 's/get_input_shape(model_file, inp)/opts["input_shape"]/g' compile_onnx_model_quant.py
+# sed -i -e '/ref_result_output_dir =/,/exist_ok=True)/d' compile_onnx_model_quant.py
+# sed -i -e '/flatten().tofile(/d' compile_onnx_model_quant.py
+# sed -i -e '/os.path.join(ref_result_output_dir, "input_"/d' compile_onnx_model_quant.py
+# sed -i -e 's/ref_result_output_dir/output_dir/g' compile_onnx_model_quant.py
+# sed -i -e 's/_fp32//g' compile_onnx_model_quant.py 
+# sed -i -e 's/_fp16//g' compile_onnx_model_quant.py
+# sed -i -e 's/FORMAT.BGR/FORMAT.YUYV_422/g' compile_onnx_model_quant.py
+# sed -i -e 's/480, 640, 3/480, 640, 2/g' compile_onnx_model_quant.py
 
 # python3 compile_onnx_model_quant.py ${TVM_ROOT}/convert/output/vit_tiny_patch16_224_onnx/vit_tiny_patch16_224.onnx -o vit_tiny_onnx_npu -t $SDK -d $TRANSLATOR -c $QUANTIZER --images $TRANSLATOR/../GettingStarted/tutorials/calibrate_sample/ -f float32 
 ```
@@ -53,6 +65,11 @@ Pythonの仮想環境を終了します．
 `vit_tiny_onnx_cpu`というディレクトリにコンパイル後のファイルが出力されます．
 ```
 # cd $TVM_ROOT/tutorials/
+# git restore compile_cpu_only_onnx_model.py
+
+# sed -i -e 's/FORMAT.BGR/FORMAT.YUYV_422/g' compile_cpu_only_onnx_model.py
+# sed -i -e 's/480, 640, 3/480, 640, 2/g' compile_cpu_only_onnx_model.py
+
 # python3 compile_cpu_only_onnx_model.py ${TVM_ROOT}/convert/output/vit_tiny_patch16_224_onnx/vit_tiny_patch16_224.onnx -o vit_tiny_onnx_cpu -s 1,3,224,224 -i input
 ```
 
